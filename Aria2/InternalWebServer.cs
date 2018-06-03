@@ -4,14 +4,13 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace Aria2
 {
     public class InternalWebServer : IDisposable
     {
-        private int port = 0;
-        private string webRoot = "www";
+        public int Port { get; private set; } = 0;
+        public string WebRoot { get; private set; } = "www";
         private HttpListener httpListener = null;
         private Dictionary<string, string> mimeType = new Dictionary<string, string>()
         { 
@@ -34,31 +33,30 @@ namespace Aria2
             { ".ico", "image/icon" },
             { ".eot", "font/eot" },
         };
-        public InternalWebServer(string webRoot)
+        public InternalWebServer(string webRoot, int port)
         {
-            this.webRoot = webRoot;
+            this.WebRoot = webRoot;
+            this.Port = port;
         }
         /// <summary>
         /// 启动本地网页服务器
         /// </summary>
         /// <returns></returns>
-        public int Start()
+        public void Start()
         {
             try
             {
                 //监听端口
                 httpListener = new HttpListener();
-                port = getPort();
-                var host = "http://+:" + port.ToString() + "/";
+                var host = "http://+:" + Port.ToString() + "/";
                 httpListener.Prefixes.Add(host);
                 httpListener.Start();
-                Console.WriteLine("Server Start On: " + host);
+                //Console.WriteLine("Server Start On: " + host);
                 httpListener.BeginGetContext(new AsyncCallback(onWebResponse), httpListener);  //开始异步接收request请求
             }
             catch (Exception ex)
             {
             }
-            return port;
         }
         /// <summary>
         /// 网页服务器相应处理
@@ -84,7 +82,7 @@ namespace Aria2
 
                 if (path == "" || path == "/")
                 {
-                    file = Path.Combine(webRoot, "index.html");
+                    file = Path.Combine(WebRoot, "index.html");
                 }
                 else
                 {
@@ -96,9 +94,9 @@ namespace Aria2
                     path = Path.Combine(paths);
 
                     if (paths.Last().IndexOf('.') == -1)
-                        file = Path.Combine(webRoot, path, "index.html");
+                        file = Path.Combine(WebRoot, path, "index.html");
                     else
-                        file = Path.Combine(webRoot, path);
+                        file = Path.Combine(WebRoot, path);
                 }
 
                 //处理请求文件名的后缀
@@ -149,26 +147,6 @@ namespace Aria2
         public void Dispose()
         {
             Stop();
-        }
-        private int getPort()
-        {
-            //获取本地计算机的网络连接和通信统计数据的信息            
-            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            //返回本地计算机上的所有Tcp监听程序            
-            IPEndPoint[] ipsTCP = ipGlobalProperties.GetActiveTcpListeners();
-            //返回本地计算机上的所有UDP监听程序            
-            IPEndPoint[] ipsUDP = ipGlobalProperties.GetActiveUdpListeners();
-            //返回本地计算机上的Internet协议版本4(IPV4 传输控制协议(TCP)连接的信息。   
-            TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
-
-            var usedPorts = ipsTCP.Select(en => en.Port).Concat(tcpConnInfoArray.Select(en => en.LocalEndPoint.Port));
-
-            var port = new Random().Next(1024, 65535);
-            while (usedPorts.Contains(port))
-            {
-                port = new Random().Next(1024, 65535);
-            }
-            return port;
         }
     }
 }

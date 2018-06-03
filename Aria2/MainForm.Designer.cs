@@ -1,6 +1,6 @@
 ﻿namespace Aria2
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,52 +29,35 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.webui_WebUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.log_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.webui_WebUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.opendir_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dldir_ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.setting_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(800, 450);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // notifyIcon1
             // 
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "Aria2";
             this.notifyIcon1.Visible = true;
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.opendir_ToolStripMenuItem,
             this.log_ToolStripMenuItem,
             this.webui_WebUIToolStripMenuItem,
+            this.options_ToolStripMenuItem,
             this.exit_ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
-            // 
-            // webui_WebUIToolStripMenuItem
-            // 
-            this.webui_WebUIToolStripMenuItem.Name = "webui_WebUIToolStripMenuItem";
-            this.webui_WebUIToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.webui_WebUIToolStripMenuItem.Text = "切换WebUI";
-            this.webui_WebUIToolStripMenuItem.Click += new System.EventHandler(this.webui_WebUIToolStripMenuItem_Click);
-            // 
-            // exit_ToolStripMenuItem
-            // 
-            this.exit_ToolStripMenuItem.Name = "exit_ToolStripMenuItem";
-            this.exit_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.exit_ToolStripMenuItem.Text = "退出";
-            this.exit_ToolStripMenuItem.Click += new System.EventHandler(this.exit_ToolStripMenuItem_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 152);
             // 
             // log_ToolStripMenuItem
             // 
@@ -83,13 +66,60 @@
             this.log_ToolStripMenuItem.Text = "显示日志";
             this.log_ToolStripMenuItem.Click += new System.EventHandler(this.log_ToolStripMenuItem_Click);
             // 
-            // Form1
+            // webui_WebUIToolStripMenuItem
+            // 
+            this.webui_WebUIToolStripMenuItem.Name = "webui_WebUIToolStripMenuItem";
+            this.webui_WebUIToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.webui_WebUIToolStripMenuItem.Text = "切换WebUI";
+            // 
+            // options_ToolStripMenuItem
+            // 
+            this.options_ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dldir_ToolStripMenuItem1,
+            this.setting_ToolStripMenuItem});
+            this.options_ToolStripMenuItem.Name = "options_ToolStripMenuItem";
+            this.options_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.options_ToolStripMenuItem.Text = "设置";
+            // 
+            // exit_ToolStripMenuItem
+            // 
+            this.exit_ToolStripMenuItem.Name = "exit_ToolStripMenuItem";
+            this.exit_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.exit_ToolStripMenuItem.Text = "退出";
+            this.exit_ToolStripMenuItem.Click += new System.EventHandler(this.exit_ToolStripMenuItem_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // opendir_ToolStripMenuItem
+            // 
+            this.opendir_ToolStripMenuItem.Name = "opendir_ToolStripMenuItem";
+            this.opendir_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.opendir_ToolStripMenuItem.Text = "打开下载目录";
+            this.opendir_ToolStripMenuItem.Click += new System.EventHandler(this.opendir_ToolStripMenuItem_Click);
+            // 
+            // dldir_ToolStripMenuItem1
+            // 
+            this.dldir_ToolStripMenuItem1.Name = "dldir_ToolStripMenuItem1";
+            this.dldir_ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.dldir_ToolStripMenuItem1.Text = "设置下载目录";
+            this.dldir_ToolStripMenuItem1.Click += new System.EventHandler(this.dldir_ToolStripMenuItem1_Click);
+            // 
+            // setting_ToolStripMenuItem
+            // 
+            this.setting_ToolStripMenuItem.Name = "setting_ToolStripMenuItem";
+            this.setting_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.setting_ToolStripMenuItem.Text = "高级选项";
+            this.setting_ToolStripMenuItem.Click += new System.EventHandler(this.setting_ToolStripMenuItem_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.webBrowser1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Aria2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.contextMenuStrip1.ResumeLayout(false);
@@ -98,13 +128,16 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem exit_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem webui_WebUIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem log_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem options_ToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem opendir_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dldir_ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem setting_ToolStripMenuItem;
     }
 }
 
