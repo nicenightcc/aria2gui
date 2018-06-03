@@ -145,7 +145,7 @@
         public string __parameterized_uri { get; set; } = "";
         public string __pause { get; set; } = "";
         public string __pause_metadata { get; set; } = "";
-        public string __peer_id_prefix { get; set; } = "";
+        public string __peer_id_prefix { get; set; } = "-TR2770-";
         public string __piece_length { get; set; } = "";
         public string __private_key { get; set; } = "";
         public string __proxy_method { get; set; } = "";
@@ -191,7 +191,7 @@
         public string __truncate_console_readout { get; set; } = "";
         public string __uri_selector { get; set; } = "";
         public string __use_head { get; set; } = "";
-        public string __user_agent { get; set; } = "Mozilla/5.0";
+        public string __user_agent { get; set; } = "Transmission/2.77";
         //public string _out { get; set; } = "";
         //public string _torrent_file { get; set; } = "";
     }

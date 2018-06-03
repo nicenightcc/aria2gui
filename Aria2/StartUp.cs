@@ -19,7 +19,7 @@ namespace Aria2
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
                 CachePath = Path.Combine(Environment.CurrentDirectory, "cache"),
                 IgnoreCertificateErrors = true,
-                LogSeverity = LogSeverity.Disable
+                LogSeverity = LogSeverity.Default
             };
 
             //Perform dependency check to make sure all relevant resources are in our output directory.
