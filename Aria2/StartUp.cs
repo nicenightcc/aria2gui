@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,16 +17,18 @@ namespace Aria2
             {
                 Locale = "zh-CN",
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                //CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "cache")
+                CachePath = Path.Combine(Environment.CurrentDirectory, "cache"),
+                IgnoreCertificateErrors = true,
+                LogSeverity = LogSeverity.Disable
             };
 
             //Perform dependency check to make sure all relevant resources are in our output directory.
             Cef.Initialize(cefsettings, performDependencyCheck: true, browserProcessHandler: null);
 
             var resource = Path.Combine(Application.StartupPath, "resource");
-            var webui = Directory.GetDirectories(resource);
+            var webuis = Directory.GetDirectories(resource);
 
-            if (webui.Length == 0)
+            if (webuis.Length == 0)
             {
                 MessageBox.Show("缺少WebUI资源");
                 Application.Exit();

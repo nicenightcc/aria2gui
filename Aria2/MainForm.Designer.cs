@@ -31,14 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.opendir_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.log_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.webui_WebUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.options_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.opendir_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dldir_ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.setting_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.refresh_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,12 +53,20 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.opendir_ToolStripMenuItem,
+            this.refresh_ToolStripMenuItem,
             this.log_ToolStripMenuItem,
             this.webui_WebUIToolStripMenuItem,
             this.options_ToolStripMenuItem,
             this.exit_ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 152);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 176);
+            // 
+            // opendir_ToolStripMenuItem
+            // 
+            this.opendir_ToolStripMenuItem.Name = "opendir_ToolStripMenuItem";
+            this.opendir_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.opendir_ToolStripMenuItem.Text = "打开下载目录";
+            this.opendir_ToolStripMenuItem.Click += new System.EventHandler(this.opendir_ToolStripMenuItem_Click);
             // 
             // log_ToolStripMenuItem
             // 
@@ -81,6 +90,20 @@
             this.options_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.options_ToolStripMenuItem.Text = "设置";
             // 
+            // dldir_ToolStripMenuItem1
+            // 
+            this.dldir_ToolStripMenuItem1.Name = "dldir_ToolStripMenuItem1";
+            this.dldir_ToolStripMenuItem1.Size = new System.Drawing.Size(174, 26);
+            this.dldir_ToolStripMenuItem1.Text = "设置下载目录";
+            this.dldir_ToolStripMenuItem1.Click += new System.EventHandler(this.dldir_ToolStripMenuItem1_Click);
+            // 
+            // setting_ToolStripMenuItem
+            // 
+            this.setting_ToolStripMenuItem.Name = "setting_ToolStripMenuItem";
+            this.setting_ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.setting_ToolStripMenuItem.Text = "高级选项";
+            this.setting_ToolStripMenuItem.Click += new System.EventHandler(this.setting_ToolStripMenuItem_Click);
+            // 
             // exit_ToolStripMenuItem
             // 
             this.exit_ToolStripMenuItem.Name = "exit_ToolStripMenuItem";
@@ -93,26 +116,12 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // opendir_ToolStripMenuItem
+            // refresh_ToolStripMenuItem
             // 
-            this.opendir_ToolStripMenuItem.Name = "opendir_ToolStripMenuItem";
-            this.opendir_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.opendir_ToolStripMenuItem.Text = "打开下载目录";
-            this.opendir_ToolStripMenuItem.Click += new System.EventHandler(this.opendir_ToolStripMenuItem_Click);
-            // 
-            // dldir_ToolStripMenuItem1
-            // 
-            this.dldir_ToolStripMenuItem1.Name = "dldir_ToolStripMenuItem1";
-            this.dldir_ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
-            this.dldir_ToolStripMenuItem1.Text = "设置下载目录";
-            this.dldir_ToolStripMenuItem1.Click += new System.EventHandler(this.dldir_ToolStripMenuItem1_Click);
-            // 
-            // setting_ToolStripMenuItem
-            // 
-            this.setting_ToolStripMenuItem.Name = "setting_ToolStripMenuItem";
-            this.setting_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.setting_ToolStripMenuItem.Text = "高级选项";
-            this.setting_ToolStripMenuItem.Click += new System.EventHandler(this.setting_ToolStripMenuItem_Click);
+            this.refresh_ToolStripMenuItem.Name = "refresh_ToolStripMenuItem";
+            this.refresh_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.refresh_ToolStripMenuItem.Text = "刷新界面";
+            this.refresh_ToolStripMenuItem.Click += new System.EventHandler(this.refresh_ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -138,6 +147,7 @@
         private System.Windows.Forms.ToolStripMenuItem opendir_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dldir_ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setting_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refresh_ToolStripMenuItem;
     }
 }
 

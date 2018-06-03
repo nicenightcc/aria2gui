@@ -10,7 +10,7 @@ namespace Aria2
 {
     public partial class MainForm : Form
     {
-        private string webui = "WebUI";
+        private string webui = "";
         private bool closing = false;
         private Aria2c aria2c = null;
         private InternalWebServer server = null;
@@ -19,15 +19,15 @@ namespace Aria2
 
         public MainForm(Aria2c aria2c, InternalWebServer server)
         {
+            InitializeComponent();
             this.aria2c = aria2c;
             this.server = server;
-            InitializeComponent();
+            this.Disposed += aria2c.Dispose;
+            this.Disposed += server.Dispose;
         }
         public void Init()
         {
-            this.Disposed += aria2c.Dispose;
-            this.Disposed += server.Dispose;
-
+            this.webui = new DirectoryInfo(Directory.GetDirectories(server.WebRoot).FirstOrDefault()).Name;
             this.config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var settings = config.AppSettings.Settings;
             if (settings.AllKeys.Contains("height"))
@@ -58,15 +58,14 @@ namespace Aria2
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
 
 
-            this.webBrowser1 = new ChromiumWebBrowser("")
+            this.webBrowser1 = new ChromiumWebBrowser("about:blank")
             {
                 Dock = DockStyle.Fill,
                 AllowDrop = false,
+                MenuHandler = new MenuHandler(),
             };
 
             this.Controls.Add(webBrowser1);
-
-            this.webBrowser1.MenuHandler = new MenuHandler();
 
             this.webBrowser1.TitleChanged += (s, e) => { this.Invoke(() => { this.Text = e.Title; }); };
 
@@ -75,6 +74,8 @@ namespace Aria2
 
         private void UseWebUI(string webui)
         {
+            var cookie = CefSharp.Cef.GetGlobalCookieManager();
+            cookie.DeleteCookies();
             this.webBrowser1.Load(string.Format("http://localhost:{0}/{1}/", server.Port, webui));
             if (File.Exists(Path.Combine(server.WebRoot, webui, "favicon.ico")))
                 this.notifyIcon1.Icon = new Icon(Path.Combine(server.WebRoot, webui, "favicon.ico"));
@@ -121,6 +122,8 @@ namespace Aria2
                         settings.Add("webui", this.webui);
                     config.Save();
                 }
+                if (webBrowser1 != null)
+                    webBrowser1.GetBrowser().CloseBrowser(true);
             }
         }
 
@@ -173,6 +176,13 @@ namespace Aria2
         private void opendir_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", this.aria2c.Config.__dir);
+        }
+
+        private void refresh_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cookie = CefSharp.Cef.GetGlobalCookieManager();
+            cookie.DeleteCookies();
+            this.webBrowser1.GetBrowser().Reload(true);
         }
     }
 }

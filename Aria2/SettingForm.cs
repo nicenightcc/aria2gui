@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -13,37 +14,48 @@ namespace Aria2
         public SettingForm(Aria2Config config)
         {
             this.config = config;
-            explains = JsonConvert.DeserializeObject<Dictionary<string, string>>(Resource1.explains);
+            explains = JsonConvert.DeserializeObject<Dictionary<string, string>>(Resource.explains);
             InitializeComponent();
+            //this.panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(this.panel1, true, null);
+            //this.panel1.CellPaint += (s, e) =>
+            //{
+            //    Pen pen = new Pen(Color.Black);
+            //    e.Graphics.DrawLine(pen, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.X + this.panel1.Width - 1, e.CellBounds.Y);
+            //    //e.Graphics.DrawRectangle(pen, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.X + this.panel1.Width - 1, e.CellBounds.Y + this.panel1.Height - 1);
+            //};
         }
 
         private void Init()
         {
-            this.panel1.VerticalScroll.Enabled = true;
-            this.panel1.VerticalScroll.Visible = true;
-            this.panel1.Scroll += (s, e) =>
-            {
-                this.panel1.VerticalScroll.Value = e.NewValue;
-            };
-            var top = 30;
+            //this.panel1.VerticalScroll.Enabled = true;
+            //this.panel1.VerticalScroll.Visible = true;
+            //this.panel1.Scroll += (s, e) =>
+            //{
+            //    this.panel1.VerticalScroll.Value = e.NewValue;
+            //};
 
-            foreach (var p in this.config.GetType().GetProperties().Reverse())
+            var props = this.config.GetType().GetProperties();
+
+            this.panel1.ColumnCount = 3;
+            this.panel1.RowCount = props.Length;
+
+            this.panel1.ColumnStyles[0] = new ColumnStyle(SizeType.Absolute, 180);
+            this.panel1.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, 200);
+            this.panel1.ColumnStyles[2] = new ColumnStyle(SizeType.AutoSize);
+
+            for (var i = 0; i < props.Length; i++)
             {
+                var p = props[i];
+
                 var name = p.Name.Replace('_', '-');
                 var explain = explains.Keys.Contains(p.Name) ? explains[p.Name] : "";
-                var box = new GroupBox()
-                {
-                    Top = top,
-                    Left = 30,
-                    Height = 50,
-                    Dock = DockStyle.Top
-                };
 
                 var name_label = new Label()
                 {
-                    Top = 20,
-                    Left = 20,
-                    Width = 200,
+                    Padding = new Padding(2),
+                    Height = 30,
+                    Width = 150,
+                    TextAlign = ContentAlignment.MiddleLeft,
                     AutoEllipsis = true,
                     Text = name,
                 };
@@ -51,44 +63,36 @@ namespace Aria2
                 {
                     IsBalloon = true,
                 }.SetToolTip(name_label, name);
-                box.Controls.Add(name_label);
+                this.panel1.Controls.Add(name_label, 0, i);
+
                 var textbox = new TextBox()
                 {
-                    Top = 15,
-                    Left = 250,
+                    Height = 30,
                     Width = 300,
                     Text = p.GetValue(config).ToString(),
                     Name = p.Name
                 };
                 this.TextBoxes.Add(textbox);
-                box.Controls.Add(textbox);
+                this.panel1.Controls.Add(textbox, 1, i);
 
                 var explain_label = new Label()
                 {
+                    TextAlign = ContentAlignment.MiddleLeft,
                     Dock = DockStyle.Fill,
                     AutoEllipsis = true,
-                    Text = "                                                                         " + explain
+                    Text = explain
                 };
                 new ToolTip()
                 {
                     IsBalloon = true,
                 }.SetToolTip(explain_label, explain);
-                box.Controls.Add(explain_label);
-
-                this.panel1.Controls.Add(box);
+                this.panel1.Controls.Add(explain_label, 2, i);
+                this.panel1.RowStyles[i] = new RowStyle(SizeType.Absolute, 50);
             }
+            //this.panel1.RowStyles[props.Length] = new RowStyle(SizeType.Absolute, 50);
+
             this.panel1.Visible = true;
             this.panel1.Focus();
-        }
-
-        private void SettingForm_Resize(object sender, EventArgs ea)
-        {
-            this.panel1.VerticalScroll.Enabled = true;
-            this.panel1.VerticalScroll.Visible = true;
-            this.panel1.Scroll += (s, e) =>
-            {
-                this.panel1.VerticalScroll.Value = e.NewValue;
-            };
         }
 
         private Dictionary<string, string> explains = new Dictionary<string, string>();
