@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Aria2
 {
@@ -17,9 +15,8 @@ namespace Aria2
             var process = System.Diagnostics.Process.GetCurrentProcess();
             var filename = process.MainModule.FileName;
 
-            bool first;
-            Mutex m = new Mutex(true, "aria2gui", out first);
-            if (!first)
+            var existed = System.Diagnostics.Process.GetProcessesByName(process.ProcessName).Any(p => p.Id != process.Id);
+            if (existed)
             {
                 try
                 {
@@ -32,8 +29,17 @@ namespace Aria2
                     {
                         client.Send("show");
                     }
+                    Environment.Exit(0);
+                    return;
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    if (args.Length > 0) { }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("检测到有旧版本或其他Aria2程序正在运行，\r\n\r\n请将它们退出后再运行本程序！", "Aria2", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+                }
                 Environment.Exit(0);
                 return;
             }
@@ -48,7 +54,6 @@ namespace Aria2
             //判断当前登录用户是否为管理员
             if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
             {
-
                 //如果是管理员，则直接运行
                 Environment.CurrentDirectory = Path.Combine(Environment.CurrentDirectory, "lib");
                 new StartUp().Start();
@@ -56,15 +61,15 @@ namespace Aria2
             else
             {
                 //创建启动对象
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.UseShellExecute = true;
-                startInfo.WorkingDirectory = new FileInfo(filename).DirectoryName;
-                startInfo.FileName = filename;
+                var p = new System.Diagnostics.Process();
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.WorkingDirectory = new FileInfo(filename).DirectoryName;
+                p.StartInfo.FileName = filename;
                 //设置启动动作,确保以管理员身份运行
-                startInfo.Verb = "runas";
+                p.StartInfo.Verb = "runas";
                 try
                 {
-                    System.Diagnostics.Process.Start(startInfo);
+                    p.Start();
                 }
                 catch { }
                 //退出

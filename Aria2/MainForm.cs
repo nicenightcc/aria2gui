@@ -28,12 +28,10 @@ namespace Aria2
             InitializeComponent();
             this.aria2c = aria2c;
             this.server = server;
-            this.Disposed += aria2c.Dispose;
-            this.Disposed += server.Dispose;
         }
         public void Init()
         {
-            InitIPC();
+            InitNotify();
 
             this.webui = new DirectoryInfo(Directory.GetDirectories(server.WebRoot).FirstOrDefault()).Name;
             this.config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -85,17 +83,15 @@ namespace Aria2
             UseWebUI(this.webui);
         }
 
-        private void InitIPC()
+        private void InitNotify()
         {
             var ipc = new IPCHelper().Server("aria2channel", "aria2gui");
             ipc.DataReceived += (s, e) =>
             {
+                Console.WriteLine(e);
                 if (e == "show")
                 {
-                    if (showing)
-                        this.TopMost = true;
-                    else
-                        this.Show();
+                    this.ShowForm();
                 }
                 else
                 {
@@ -139,6 +135,20 @@ namespace Aria2
             };
         }
 
+        private void ShowForm()
+        {
+            if (hanging)
+                this.browserResume();
+            if (!showing)
+                this.Show();
+            if (this.WindowState == FormWindowState.Minimized)
+                this.WindowState = FormWindowState.Normal;
+            this.TopMost = true;
+            this.Activate();
+            this.Focus();
+            this.TopMost = false;
+        }
+
         private void UseWebUI(string webui)
         {
             var cookie = CefSharp.Cef.GetGlobalCookieManager();
@@ -157,7 +167,7 @@ namespace Aria2
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.Show();
+                this.ShowForm();
             }
         }
 
@@ -197,6 +207,8 @@ namespace Aria2
                 }
                 if (webBrowser1 != null)
                     webBrowser1.GetBrowser().CloseBrowser(true);
+                aria2c.Stop();
+                server.Stop();
             }
         }
 
@@ -276,18 +288,6 @@ namespace Aria2
         {
             this.timer1.Enabled = false;
             Init();
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            browserResume();
-            this.showing = true;
-            this.TopMost = true;
-        }
-
-        private void MainForm_Deactivate(object sender, EventArgs e)
-        {
-            this.TopMost = false;
         }
 
     }

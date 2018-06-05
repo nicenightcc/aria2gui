@@ -48,7 +48,7 @@ namespace Aria2
                     "检测到6800端口已被占用，请检查是否为aria2c程序。\r\n\r\n"
                     + "若为aria2c，是否关闭已开启的aria2c，并开启新的例程？\r\n\r\n"
                     + "选择“是”开启新的例程，选择“否”继续使用已开启的例程，选择“取消”退出程序"
-                    , "提示", MessageBoxButtons.YesNoCancel);
+                    , "提示", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (choice == DialogResult.Yes)
                 {
                     aria2c.Stop();

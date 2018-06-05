@@ -18,6 +18,7 @@ namespace Aria2
         public Aria2Config Config { get; private set; }
         //public Action<string> ReceiveData { get; set; }
         public event EventHandler<string> DataReceived;
+        public List<string> tempfiles = new List<string>();
 
         public Aria2c(Aria2Config config)
         {
@@ -64,7 +65,10 @@ namespace Aria2
             if (!File.Exists(sessionfile))
                 File.Create(sessionfile).Close();
 
-            this.Config.__dir = new DirectoryInfo(this.Config.__dir).FullName;
+            var dir = new DirectoryInfo(this.Config.__dir);
+            if (!dir.Exists)
+                dir.Create();
+            this.Config.__dir = dir.FullName;
 
             var filename = Process.GetCurrentProcess().MainModule.FileName;
 
@@ -81,6 +85,7 @@ namespace Aria2
                         writer.Write(string.Format("{0} {1} %1 %2 %3", filename, p.Name));
                         writer.Close();
                     }
+                    tempfiles.Add(bat);
                     args.Add(string.Format("{0}={1}", p.Name.Substring(2).Replace('_', '-'), bat));
                 }
                 else if (!string.IsNullOrEmpty(v))
@@ -95,6 +100,7 @@ namespace Aria2
                 writer.Write(string.Join("\r\n", args));
                 writer.Close();
             }
+            tempfiles.Add(conf);
 
             p = new Process();
             p.StartInfo.Arguments = "--conf-path=\"" + conf + "\"";
@@ -153,6 +159,10 @@ namespace Aria2
                 p.Dispose();
             }
             p = null;
+            foreach (var f in tempfiles)
+            {
+                try { File.Delete(f); } catch { }
+            }
         }
         public void Dispose(object sender, System.EventArgs args)
         {
