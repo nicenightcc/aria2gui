@@ -18,7 +18,11 @@ namespace Aria2
             //返回本地计算机上的Internet协议版本4(IPV4 传输控制协议(TCP)连接的信息。   
             TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
 
-            return ipsTCP.Select(en => en.Port).Concat(tcpConnInfoArray.Select(en => en.LocalEndPoint.Port)).ToArray();
+            var list = tcpConnInfoArray.Where(en => en.State > TcpState.Closed && en.State < TcpState.CloseWait).Select(en => en.LocalEndPoint.Port).Concat(ipsTCP.Select(en => en.Port)).ToArray();
+            if (list.Contains(6800))
+            {
+            }
+            return list;
         }
         public int GetRandPort()
         {

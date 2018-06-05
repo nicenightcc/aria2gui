@@ -138,7 +138,6 @@ namespace Aria2
             }
         }
 
-
         public void Dispose(object sender, System.EventArgs args)
         {
             this.Dispose();

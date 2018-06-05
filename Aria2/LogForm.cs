@@ -31,12 +31,12 @@ namespace Aria2
             InitializeComponent();
         }
 
-        public void WriteLog(string str)
+        public void Log(string log)
         {
             this.Invoke(() =>
             {
                 var rtBox = this.richTextBox1;
-                var s = str.Split('');
+                var s = log.Split('');
                 rtBox.AppendText(s[0]);
                 for (var i = 1; i < s.Length; i++)
                 {
@@ -49,6 +49,11 @@ namespace Aria2
                 }
                 rtBox.AppendText("\r\n\r\n");
             });
+        }
+
+        public void Log(object sender, string str)
+        {
+            this.Log(str);
         }
     }
 }

@@ -32,6 +32,7 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.opendir_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refresh_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.log_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.webui_WebUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.options_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +40,8 @@
             this.setting_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.refresh_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.notify_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,13 @@
             this.opendir_ToolStripMenuItem.Text = "打开下载目录";
             this.opendir_ToolStripMenuItem.Click += new System.EventHandler(this.opendir_ToolStripMenuItem_Click);
             // 
+            // refresh_ToolStripMenuItem
+            // 
+            this.refresh_ToolStripMenuItem.Name = "refresh_ToolStripMenuItem";
+            this.refresh_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.refresh_ToolStripMenuItem.Text = "刷新界面";
+            this.refresh_ToolStripMenuItem.Click += new System.EventHandler(this.refresh_ToolStripMenuItem_Click);
+            // 
             // log_ToolStripMenuItem
             // 
             this.log_ToolStripMenuItem.Name = "log_ToolStripMenuItem";
@@ -85,7 +94,8 @@
             // 
             this.options_ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dldir_ToolStripMenuItem1,
-            this.setting_ToolStripMenuItem});
+            this.setting_ToolStripMenuItem,
+            this.notify_ToolStripMenuItem});
             this.options_ToolStripMenuItem.Name = "options_ToolStripMenuItem";
             this.options_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.options_ToolStripMenuItem.Text = "设置";
@@ -93,14 +103,14 @@
             // dldir_ToolStripMenuItem1
             // 
             this.dldir_ToolStripMenuItem1.Name = "dldir_ToolStripMenuItem1";
-            this.dldir_ToolStripMenuItem1.Size = new System.Drawing.Size(174, 26);
+            this.dldir_ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
             this.dldir_ToolStripMenuItem1.Text = "设置下载目录";
             this.dldir_ToolStripMenuItem1.Click += new System.EventHandler(this.dldir_ToolStripMenuItem1_Click);
             // 
             // setting_ToolStripMenuItem
             // 
             this.setting_ToolStripMenuItem.Name = "setting_ToolStripMenuItem";
-            this.setting_ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.setting_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.setting_ToolStripMenuItem.Text = "高级选项";
             this.setting_ToolStripMenuItem.Click += new System.EventHandler(this.setting_ToolStripMenuItem_Click);
             // 
@@ -116,12 +126,12 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // refresh_ToolStripMenuItem
+            // notify_ToolStripMenuItem
             // 
-            this.refresh_ToolStripMenuItem.Name = "refresh_ToolStripMenuItem";
-            this.refresh_ToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.refresh_ToolStripMenuItem.Text = "刷新界面";
-            this.refresh_ToolStripMenuItem.Click += new System.EventHandler(this.refresh_ToolStripMenuItem_Click);
+            this.notify_ToolStripMenuItem.Name = "notify_ToolStripMenuItem";
+            this.notify_ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.notify_ToolStripMenuItem.Text = "通知";
+            this.notify_ToolStripMenuItem.Click += new System.EventHandler(this.notify_ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -130,7 +140,9 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "MainForm";
             this.Text = "Aria2";
+            this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -148,6 +160,8 @@
         private System.Windows.Forms.ToolStripMenuItem dldir_ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setting_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refresh_ToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem notify_ToolStripMenuItem;
     }
 }
 

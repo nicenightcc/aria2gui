@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,13 +20,17 @@ namespace Aria2
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
                 CachePath = Path.Combine(Environment.CurrentDirectory, "cache"),
                 IgnoreCertificateErrors = true,
-                LogSeverity = LogSeverity.Default
+                LogSeverity = LogSeverity.Disable,
             };
+            cefsettings.CefCommandLineArgs.Add("disable-gpu", "1");
+            cefsettings.CefCommandLineArgs.Add("disable-gpu-compositing", "1");
 
             //Perform dependency check to make sure all relevant resources are in our output directory.
             Cef.Initialize(cefsettings, performDependencyCheck: true, browserProcessHandler: null);
 
-            var resource = Path.Combine(Application.StartupPath, "resource");
+
+            var path = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName;
+            var resource = Path.Combine(path, "resource");
             var webuis = Directory.GetDirectories(resource);
 
             if (webuis.Length == 0)
@@ -54,7 +59,8 @@ namespace Aria2
                 }
                 else
                 {
-                    Application.Exit();
+                    Environment.Exit(0);
+                    return;
                 }
             }
             else

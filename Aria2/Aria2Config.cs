@@ -7,7 +7,7 @@
         public string __all_proxy_user { get; set; } = "";
         public string __allow_overwrite { get; set; } = "false";
         public string __allow_piece_length_change { get; set; } = "false";
-        public string __always_resume { get; set; } = "true";
+        public string __always_resume { get; set; } = "false";
         public string __async_dns { get; set; } = "";
         public string __async_dns_server { get; set; } = "";
         public string __auto_file_renaming { get; set; } = "true";
